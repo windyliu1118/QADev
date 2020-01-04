@@ -1,7 +1,6 @@
-package service;
+package service.department;
 
 import io.restassured.http.ContentType;
-import io.restassured.internal.mapping.Jackson1Mapper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +11,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
 
-public class TestWork {
+public class TestClassicDepart {
 
     static String token;
     static int parentDepartId = 2;
@@ -55,5 +54,18 @@ public class TestWork {
                 .log().all()
                 .statusCode(200)
                 .body("errcode", equalTo(0));
+    }
+
+    @Test
+    public void departList(){
+
+        given()
+                .queryParam("access_token", token)
+                .queryParam("id", parentDepartId)
+        .when().log().all()
+                .get("https://qyapi.weixin.qq.com/cgi-bin/department/list")
+        .then().log().all()
+                .body("errcode", equalTo(0));
+
     }
 }
